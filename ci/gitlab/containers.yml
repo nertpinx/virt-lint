@@ -1,0 +1,14 @@
+# THIS FILE WAS AUTO-GENERATED
+#
+#  $ lcitool manifest ci/manifest.yml
+#
+# https://gitlab.com/libvirt/libvirt-ci
+
+
+# Native container jobs
+
+x86_64-centos-stream-9-container:
+  extends: .container_job
+  allow_failure: false
+  variables:
+    NAME: centos-stream-9

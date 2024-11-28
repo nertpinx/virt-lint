@@ -1,0 +1,15 @@
+---
+packages:
+  - ccache
+  - cargo
+  - cargo-c
+  - cargo-rpm-macros
+  - go
+  - libvirt
+  - libxml2
+  - python3-libvirt
+  - lua
+  - openssl
+  - perl
+  - python3-devel
+  - rpmbuild

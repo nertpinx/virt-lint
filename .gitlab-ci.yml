@@ -1,0 +1,38 @@
+variables:
+  GIT_DEPTH: 100
+
+stages:
+  - containers
+  - sanity_checks
+  - builds
+
+.script_variables: &script_variables |
+  export CCACHE_BASEDIR="$(pwd)"
+  export CCACHE_DIR="$CCACHE_BASEDIR/ccache"
+  export CCACHE_MAXSIZE="500M"
+  export PATH="$CCACHE_WRAPPERSDIR:$PATH"
+
+include:
+  - '/ci/gitlab.yml'
+
+.native_build_job:
+  extends: .gitlab_native_build_job
+  cache:
+    paths:
+      - ccache/
+    key: "$CI_JOB_NAME"
+  script:
+    - source ci/jobs.sh
+    - run_tests
+    - if test -x /usr/bin/rpmbuild && test "$RPM" != "skip";
+      then
+        run_rpmbuild;
+      else
+        run_build;
+      fi
+  after_script:
+    - test "$CI_JOB_STATUS" != "success" && exit 1;
+    - if test -x /usr/bin/rpmbuild && test "$RPM" != "skip";
+      then
+        mv "$HOME"/rpmbuild/RPMS/x86_64/ virt-lint-rpms/;
+      fi
