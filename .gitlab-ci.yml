@@ -36,3 +36,22 @@ include:
       then
         mv "$HOME"/rpmbuild/RPMS/x86_64/ virt-lint-rpms/;
       fi
+
+.cross_build_job:
+  extends: .gitlab_cross_build_job
+  cache:
+    paths:
+      - ccache/
+    key: "$CI_JOB_NAME"
+  script:
+    - source ci/jobs.sh
+    - if test -z "$CROSS" || test "$CROSS" = "i686";
+      then
+        run_tests;
+      fi;
+      if test -x /usr/bin/rpmbuild && test "$RPM" != "skip";
+      then
+        run_rpmbuild;
+      else
+        run_build;
+      fi
