@@ -57,21 +57,12 @@ impl Validators {
     pub fn new() -> Self {
         let mut paths = Vec::new();
 
-        if let Some(lua_paths) = std::env::var_os("VIRT_LINT_LUA_PATH") {
-            paths.extend(std::env::split_paths(&lua_paths))
+        if let Some(user_paths) = std::env::var_os("VIRT_LINT_VALIDATORS_PATH") {
+            paths.extend(std::env::split_paths(&user_paths))
         } else {
             paths.extend([
-                PathBuf::from("/usr/share/virt-lint/validators_lua"),
-                PathBuf::from("./validators_lua"),
-            ]);
-        }
-
-        if let Some(python_paths) = std::env::var_os("VIRT_LINT_PYTHON_PATH") {
-            paths.extend(std::env::split_paths(&python_paths));
-        } else {
-            paths.extend([
-                PathBuf::from("/usr/share/virt-lint/validators_python"),
-                PathBuf::from("./validators_python"),
+                PathBuf::from("/usr/share/virt-lint/validators"),
+                PathBuf::from("./validators"),
             ]);
         }
 

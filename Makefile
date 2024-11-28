@@ -92,9 +92,9 @@ rpm: virt-lint-$(VERSION).tar.xz virt-lint-$(VERSION)-vendor.tar.xz
 	rm -f virt-lint-$(VERSION)-vendor.tar.xz
 
 install-data:
-	mkdir -p $(DESTDIR)$(datarootdir)/virt-lint/validators_lua
+	mkdir -p $(DESTDIR)$(datarootdir)/virt-lint/validators
 	cp --recursive validators_lua $(DESTDIR)$(datarootdir)/virt-lint/
-	mkdir -p $(DESTDIR)$(datarootdir)/virt-lint/validators_python
+	mkdir -p $(DESTDIR)$(datarootdir)/virt-lint/validators
 	cp --recursive validators_python $(DESTDIR)$(datarootdir)/virt-lint/
 
 uninstall-data:

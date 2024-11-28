@@ -13,8 +13,7 @@ import (
 
 func TestMain(t *testing.T) {
 	// TODO - switch to an absolute path, replaced at compile time
-	os.Setenv("VIRT_LINT_LUA_PATH", "../validators_lua:../../validators_lua")
-	os.Setenv("VIRT_LINT_PYTHON_PATH", "../validators_python:../../validators_python")
+	os.Setenv("VIRT_LINT_VALIDATORS_PATH", "../validators:../../validators")
 }
 
 func getConn(t *testing.T) *libvirt.Connect {

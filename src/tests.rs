@@ -15,20 +15,14 @@ fn test_init() {
     TEST_INIT.call_once(|| {
         // Set
         std::env::set_var(
-            "VIRT_LINT_LUA_PATH",
-            concat!(env!("CARGO_MANIFEST_DIR"), "/../validators_lua"),
-        );
-        std::env::set_var(
-            "VIRT_LINT_PYTHON_PATH",
-            concat!(env!("CARGO_MANIFEST_DIR"), "/../validators_python"),
-        );
+            "VIRT_LINT_VALIDATORS_PATH",
+            concat!(env!("CARGO_MANIFEST_DIR"), "/../validators"),
+        )
     });
 }
 
 fn conn() -> Connect {
-    let c = Connect::open(Some("test:///default"));
-    assert!(c.is_ok());
-    c.unwrap()
+    Connect::open(Some("test:///default")).unwrap()
 }
 
 fn close(mut conn: Connect) {
