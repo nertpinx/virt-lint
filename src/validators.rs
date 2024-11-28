@@ -275,6 +275,10 @@ fn check_node_kvm(
          * But let's try harder. */
     }
 
+    if ! emit_warning {
+        return Ok(());
+    }
+
     if let Some(caps) = vl.capabilities_get()? {
         let parser = Parser::default();
         let caps = parser.parse_string(caps)?;
