@@ -82,10 +82,10 @@ make install-data DESTDIR=%{buildroot} prefix=%{_prefix}
 %{_libdir}/pkgconfig/virt_lint.pc
 
 %files validators-lua
-%{_datadir}/virt-lint/validators
+%{_datadir}/virt-lint/validators/*/*lua
 
 %files validators-python
-%{_datadir}/virt-lint/validators
+%{_datadir}/virt-lint/validators/*/*py
 
 %changelog
 %autochangelog
