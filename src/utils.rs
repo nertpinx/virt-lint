@@ -18,7 +18,13 @@ pub(crate) fn xpath_eval_or_none(doc: &Document, xpath: &str) -> Option<String> 
             return None;
         }
         Ok(nodes) => {
-            for node in nodes.get_nodes_as_vec() {
+            let nodes = nodes.get_nodes_as_vec();
+
+            if nodes.is_empty() {
+                return None;
+            }
+
+            for node in nodes {
                 ret += &node.get_content()
             }
         }
