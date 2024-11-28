@@ -88,7 +88,7 @@ fn test_simple() {
 
         let mut vl = VirtLint::new(Some(&c));
 
-        assert!(vl.validate(&domxml, &Vec::new(), false).is_ok());
+        vl.validate(&domxml, &[], false).unwrap();
 
         let mut warnings = vl.warnings();
         warnings.sort();
@@ -172,9 +172,9 @@ fn test_offline_simple() {
 
     let mut vl = VirtLint::new(None);
 
-    assert!(vl.capabilities_set(Some(capsxml)).is_ok());
-    assert!(vl.domain_capabilities_add(domcapsxml).is_ok());
-    assert!(vl.validate(&domxml, &Vec::new(), false).is_ok());
+    vl.capabilities_set(Some(capsxml)).unwrap();
+    vl.domain_capabilities_add(domcapsxml).unwrap();
+    vl.validate(&domxml, &[], false).unwrap();
 
     let mut warnings = vl.warnings();
 
@@ -232,30 +232,28 @@ fn test_offline_with_error() {
 
     let mut vl = VirtLint::new(None);
 
-    assert!(vl.capabilities_set(Some(capsxml)).is_ok());
-    assert!(vl.domain_capabilities_add(domcapsxml).is_ok());
+    vl.capabilities_set(Some(capsxml)).unwrap();
+    vl.domain_capabilities_add(domcapsxml).unwrap();
 
     // This fails, because there is a validator that requires connection
     assert!(vl.validate(&domxml, &[], true).is_err());
 
     // This succeeds, because we deliberately run offline only validators
-    assert!(vl
-        .validate(
-            &domxml,
-            &vec![
-                String::from("TAG_1"),
-                String::from("TAG_3"),
-                String::from("TAG_4"),
-                String::from("common/check_node_kvm"),
-                String::from("common/check_numa"),
-                String::from("common/check_pcie_root_ports"),
-                String::from("common_p/check_node_kvm"),
-                String::from("common_p/check_numa"),
-                String::from("common_p/check_pcie_root_ports"),
-            ],
-            true
-        )
-        .is_ok());
+    vl.validate(
+        &domxml,
+        &vec![
+            String::from("TAG_1"),
+            String::from("TAG_3"),
+            String::from("TAG_4"),
+            String::from("common/check_node_kvm"),
+            String::from("common/check_numa"),
+            String::from("common/check_pcie_root_ports"),
+            String::from("common_p/check_node_kvm"),
+            String::from("common_p/check_numa"),
+            String::from("common_p/check_pcie_root_ports"),
+        ],
+        true
+    ).unwrap();
 
     let mut warnings = vl.warnings();
 
