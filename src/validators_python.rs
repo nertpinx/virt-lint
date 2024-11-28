@@ -6,6 +6,7 @@ use libxml::tree::Document;
 use pyo3::exceptions::PyAttributeError;
 use pyo3::prelude::*;
 use pyo3::types::PyDict;
+use std::collections::HashMap;
 use std::collections::HashSet;
 use std::ffi::OsString;
 use std::path::Path;
@@ -257,12 +258,20 @@ impl ValidatorsPython {
         domxml: &str,
         _domxml_doc: &Document,
     ) -> VirtLintResult<()> {
+        let mut validators = HashMap::new();
+
         for p in &self.prefix {
             let paths = get_validators(p, tags, &self.filename_prefix, &self.ext);
 
             for path in paths {
-                ValidatorPython::from_path(path, p, vl, domxml.to_string())?.validate()?;
+                let subpath = path.strip_prefix(p).expect("Internal impossible error");
+
+                validators.entry(subpath.to_owned()).or_insert((path, p));
             }
+        }
+
+        for (path, p) in validators.values() {
+            ValidatorPython::from_path(path, p, vl, domxml.to_string())?.validate()?;
         }
 
         Ok(())

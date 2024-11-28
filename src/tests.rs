@@ -139,6 +139,53 @@ fn test_simple() {
     close(c);
 }
 
+#[test]#[ignore = "pollutes environment for other tests"]
+fn test_override() {
+    let old_path = std::env::var_os("VIRT_LINT_VALIDATORS_PATH");
+    std::env::set_var(
+        "VIRT_LINT_VALIDATORS_PATH",
+        concat!(
+            concat!(env!("CARGO_MANIFEST_DIR"), "/../validators_overrides"),
+            ":",
+            concat!(env!("CARGO_MANIFEST_DIR"), "/../validators"),
+        )
+    );
+
+    let c = conn();
+    {
+        let dom = Domain::lookup_by_name(&c, "test").unwrap();
+
+        let domxml = dom.get_xml_desc(0).unwrap_or_default();
+
+        let mut vl = VirtLint::new(Some(&c));
+
+        let res = vl.validate(&domxml, &["common_p".to_string()], false);
+
+        if let Some(old_path) = old_path {
+            std::env::set_var("VIRT_LINT_VALIDATORS_PATH", old_path);
+        }
+
+        res.unwrap();
+
+        assert_eq!(
+            vl.warnings(),
+            vec![
+                VirtLintWarning::new(
+                    vec![
+                        String::from("common_p"),
+                        String::from("common_p/check_numa_free")
+                    ],
+                    WarningDomain::Node,
+                    WarningLevel::Notice,
+                    String::from("Different message")
+                ),
+            ]
+        );
+    }
+
+    close(c);
+}
+
 #[test]
 fn test_offline_simple() {
     test_init();

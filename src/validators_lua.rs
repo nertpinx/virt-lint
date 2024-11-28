@@ -4,6 +4,7 @@ use crate::utils::*;
 use crate::*;
 use libxml::tree::Document;
 use mlua::{Error, ExternalResult, Lua, UserData};
+use std::collections::HashMap;
 use std::collections::HashSet;
 use std::ffi::OsString;
 use std::path::Path;
@@ -286,12 +287,20 @@ impl ValidatorsLua {
         domxml: &str,
         domxml_doc: &Document,
     ) -> VirtLintResult<()> {
-        for p in &self.prefix {
-            let validators = get_validators(p, tags, &self.filename_prefix, &self.ext);
+        let mut validators = HashMap::new();
 
-            for validator in validators {
-                validate_one(validator, p, vl, domxml, domxml_doc)?;
+        for p in &self.prefix {
+            let paths = get_validators(p, tags, &self.filename_prefix, &self.ext);
+
+            for path in paths {
+                let subpath = path.strip_prefix(p).expect("Internal impossible error");
+
+                validators.entry(subpath.to_owned()).or_insert((path, p));
             }
+        }
+
+        for (path, p) in validators.values() {
+            validate_one(path.to_owned(), p, vl, domxml, domxml_doc)?;
         }
 
         Ok(())
