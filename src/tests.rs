@@ -236,7 +236,7 @@ fn test_offline_with_error() {
     assert!(vl.domain_capabilities_add(domcapsxml).is_ok());
 
     // This fails, because there is a validator that requires connection
-    assert!(vl.validate(&domxml, &Vec::new(), true).is_err());
+    assert!(vl.validate(&domxml, &[], true).is_err());
 
     // This succeeds, because we deliberately run offline only validators
     assert!(vl
