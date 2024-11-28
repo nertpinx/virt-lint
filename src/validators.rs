@@ -61,8 +61,9 @@ impl Validators {
             paths.extend(std::env::split_paths(&user_paths))
         } else {
             paths.extend([
-                PathBuf::from("/usr/share/virt-lint/validators"),
                 PathBuf::from("./validators"),
+                PathBuf::from("/etc/virt-lint/validators"),
+                PathBuf::from("/usr/share/virt-lint/validators"),
             ]);
         }
 
