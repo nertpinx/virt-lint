@@ -271,7 +271,7 @@ impl ValidatorsLua {
     pub fn list_tags(&self) -> VirtLintResult<HashSet<String>> {
         let mut ret: HashSet<String> = HashSet::new();
 
-        for p in self.prefix.iter() {
+        for p in &self.prefix {
             let rc = recurse_files(p, Some(&self.filename_prefix), Some(&self.ext))?;
             for path in rc {
                 let tags = get_tags_for_path(p, &path);
@@ -292,7 +292,7 @@ impl ValidatorsLua {
         domxml: &str,
         domxml_doc: &Document,
     ) -> VirtLintResult<()> {
-        for p in self.prefix.iter() {
+        for p in &self.prefix {
             let validators = get_validators(p, tags, &self.filename_prefix, &self.ext);
 
             for validator in validators {
