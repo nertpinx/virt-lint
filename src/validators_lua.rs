@@ -252,17 +252,11 @@ pub struct ValidatorsLua {
 }
 
 impl ValidatorsLua {
-    pub fn new(prefix: Vec<PathBuf>, filename_prefix: &'static str, ext: &'static str) -> Self {
-        let mut prefix_exists: Vec<PathBuf> = Vec::new();
-
-        for p in prefix {
-            if p.exists() {
-                prefix_exists.push(p);
-            }
-        }
+    pub fn new(prefix: &[PathBuf], filename_prefix: &'static str, ext: &'static str) -> Self {
+        let prefix = prefix.iter().filter(|p| p.exists()).cloned().collect();
 
         Self {
-            prefix: prefix_exists,
+            prefix,
             filename_prefix: OsString::from(filename_prefix),
             ext: OsString::from(ext),
         }

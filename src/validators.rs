@@ -44,8 +44,8 @@ impl Validators {
             },
         ];
 
-        let lua = ValidatorsLua::new(paths.clone(), "check_", "lua");
-        let python = ValidatorsPython::new(paths, "check_", "py");
+        let lua = ValidatorsLua::new(&paths, "check_", "lua");
+        let python = ValidatorsPython::new(&paths, "check_", "py");
 
         Self {
             validators,
