@@ -7,6 +7,54 @@
 
 # Native build jobs
 
+x86_64-almalinux-9:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-almalinux-9-container
+      optional: true
+  allow_failure: false
+  variables:
+    JOB_OPTIONAL: 1
+    NAME: almalinux-9
+    RPM: skip
+    TARGET_BASE_IMAGE: docker.io/library/almalinux:9
+
+
+x86_64-almalinux-9-clang:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-almalinux-9-container
+      optional: true
+  allow_failure: false
+  variables:
+    CC: clang
+    NAME: almalinux-9
+    RPM: skip
+    TARGET_BASE_IMAGE: docker.io/library/almalinux:9
+
+
+x86_64-alpine-319:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-alpine-319-container
+      optional: true
+  allow_failure: false
+  variables:
+    NAME: alpine-319
+    TARGET_BASE_IMAGE: docker.io/library/alpine:3.19
+
+
+x86_64-alpine-edge:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-alpine-edge-container
+      optional: true
+  allow_failure: true
+  variables:
+    NAME: alpine-edge
+    TARGET_BASE_IMAGE: docker.io/library/alpine:edge
+
+
 x86_64-centos-stream-9:
   extends: .native_build_job
   needs:
@@ -20,3 +68,576 @@ x86_64-centos-stream-9:
     expire_in: 1 day
     paths:
       - virt-lint-rpms
+
+
+x86_64-debian-11:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-debian-11-container
+      optional: true
+  allow_failure: false
+  variables:
+    JOB_OPTIONAL: 1
+    NAME: debian-11
+    TARGET_BASE_IMAGE: docker.io/library/debian:11-slim
+
+
+x86_64-debian-11-clang:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-debian-11-container
+      optional: true
+  allow_failure: false
+  variables:
+    JOB_OPTIONAL: 1
+    NAME: debian-11
+    TARGET_BASE_IMAGE: docker.io/library/debian:11-slim
+
+
+x86_64-debian-12:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-debian-12-container
+      optional: true
+  allow_failure: false
+  variables:
+    NAME: debian-12
+    TARGET_BASE_IMAGE: docker.io/library/debian:12-slim
+
+
+x86_64-debian-12-clang:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-debian-12-container
+      optional: true
+  allow_failure: false
+  variables:
+    NAME: debian-12
+    TARGET_BASE_IMAGE: docker.io/library/debian:12-slim
+
+
+x86_64-debian-sid:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-debian-sid-container
+      optional: true
+  allow_failure: true
+  variables:
+    NAME: debian-sid
+    TARGET_BASE_IMAGE: docker.io/library/debian:sid-slim
+
+
+x86_64-fedora-39:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-fedora-39-container
+      optional: true
+  allow_failure: false
+  variables:
+    NAME: fedora-39
+    TARGET_BASE_IMAGE: registry.fedoraproject.org/fedora:39
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - virt-lint-rpms
+
+
+x86_64-fedora-40:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-fedora-40-container
+      optional: true
+  allow_failure: false
+  variables:
+    NAME: fedora-40
+    TARGET_BASE_IMAGE: registry.fedoraproject.org/fedora:40
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - virt-lint-rpms
+
+
+x86_64-fedora-rawhide:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-fedora-rawhide-container
+      optional: true
+  allow_failure: true
+  variables:
+    NAME: fedora-rawhide
+    TARGET_BASE_IMAGE: registry.fedoraproject.org/fedora:rawhide
+
+
+x86_64-fedora-rawhide-clang:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-fedora-rawhide-container
+      optional: true
+  allow_failure: true
+  variables:
+    CC: clang
+    NAME: fedora-rawhide
+    RPM: skip
+    TARGET_BASE_IMAGE: registry.fedoraproject.org/fedora:rawhide
+
+
+x86_64-opensuse-leap-15:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-opensuse-leap-15-container
+      optional: true
+  allow_failure: false
+  variables:
+    CFLAGS: -Wno-missing-include-dirs
+    NAME: opensuse-leap-15
+    RPM: skip
+    TARGET_BASE_IMAGE: registry.opensuse.org/opensuse/leap:15.6
+
+
+x86_64-opensuse-tumbleweed:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-opensuse-tumbleweed-container
+      optional: true
+  allow_failure: true
+  variables:
+    NAME: opensuse-tumbleweed
+    RPM: skip
+    TARGET_BASE_IMAGE: registry.opensuse.org/opensuse/tumbleweed:latest
+
+
+x86_64-ubuntu-2204:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-ubuntu-2204-container
+      optional: true
+  allow_failure: false
+  variables:
+    NAME: ubuntu-2204
+    TARGET_BASE_IMAGE: docker.io/library/ubuntu:22.04
+
+
+x86_64-ubuntu-2404:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-ubuntu-2404-container
+      optional: true
+  allow_failure: false
+  variables:
+    JOB_OPTIONAL: 1
+    NAME: ubuntu-2404
+    TARGET_BASE_IMAGE: docker.io/library/ubuntu:24.04
+
+
+x86_64-ubuntu-2404-clang:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-ubuntu-2404-container
+      optional: true
+  allow_failure: false
+  variables:
+    CC: clang
+    MESON_ARGS: -Db_lundef=false -Db_sanitize=address,undefined
+    NAME: ubuntu-2404
+    TARGET_BASE_IMAGE: docker.io/library/ubuntu:24.04
+    UBSAN_OPTIONS: print_stacktrace=1:halt_on_error=1
+
+
+
+# Cross build jobs
+
+aarch64-debian-11:
+  extends: .cross_build_job
+  needs:
+    - job: aarch64-debian-11-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: aarch64
+    JOB_OPTIONAL: 1
+    NAME: debian-11
+    TARGET_BASE_IMAGE: docker.io/library/debian:11-slim
+
+
+armv6l-debian-11:
+  extends: .cross_build_job
+  needs:
+    - job: armv6l-debian-11-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: armv6l
+    JOB_OPTIONAL: 1
+    NAME: debian-11
+    TARGET_BASE_IMAGE: docker.io/library/debian:11-slim
+
+
+armv7l-debian-11:
+  extends: .cross_build_job
+  needs:
+    - job: armv7l-debian-11-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: armv7l
+    JOB_OPTIONAL: 1
+    NAME: debian-11
+    TARGET_BASE_IMAGE: docker.io/library/debian:11-slim
+
+
+i686-debian-11:
+  extends: .cross_build_job
+  needs:
+    - job: i686-debian-11-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: i686
+    JOB_OPTIONAL: 1
+    NAME: debian-11
+    TARGET_BASE_IMAGE: docker.io/library/debian:11-slim
+
+
+mips64el-debian-11:
+  extends: .cross_build_job
+  needs:
+    - job: mips64el-debian-11-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: mips64el
+    JOB_OPTIONAL: 1
+    NAME: debian-11
+    TARGET_BASE_IMAGE: docker.io/library/debian:11-slim
+
+
+mipsel-debian-11:
+  extends: .cross_build_job
+  needs:
+    - job: mipsel-debian-11-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: mipsel
+    JOB_OPTIONAL: 1
+    NAME: debian-11
+    TARGET_BASE_IMAGE: docker.io/library/debian:11-slim
+
+
+ppc64le-debian-11:
+  extends: .cross_build_job
+  needs:
+    - job: ppc64le-debian-11-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: ppc64le
+    JOB_OPTIONAL: 1
+    NAME: debian-11
+    TARGET_BASE_IMAGE: docker.io/library/debian:11-slim
+
+
+s390x-debian-11:
+  extends: .cross_build_job
+  needs:
+    - job: s390x-debian-11-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: s390x
+    JOB_OPTIONAL: 1
+    NAME: debian-11
+    TARGET_BASE_IMAGE: docker.io/library/debian:11-slim
+
+
+aarch64-debian-12:
+  extends: .cross_build_job
+  needs:
+    - job: aarch64-debian-12-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: aarch64
+    JOB_OPTIONAL: 1
+    NAME: debian-12
+    TARGET_BASE_IMAGE: docker.io/library/debian:12-slim
+
+
+armv6l-debian-12:
+  extends: .cross_build_job
+  needs:
+    - job: armv6l-debian-12-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: armv6l
+    JOB_OPTIONAL: 1
+    NAME: debian-12
+    TARGET_BASE_IMAGE: docker.io/library/debian:12-slim
+
+
+armv7l-debian-12:
+  extends: .cross_build_job
+  needs:
+    - job: armv7l-debian-12-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: armv7l
+    NAME: debian-12
+    TARGET_BASE_IMAGE: docker.io/library/debian:12-slim
+
+
+i686-debian-12:
+  extends: .cross_build_job
+  needs:
+    - job: i686-debian-12-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: i686
+    JOB_OPTIONAL: 1
+    NAME: debian-12
+    TARGET_BASE_IMAGE: docker.io/library/debian:12-slim
+
+
+mips64el-debian-12:
+  extends: .cross_build_job
+  needs:
+    - job: mips64el-debian-12-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: mips64el
+    JOB_OPTIONAL: 1
+    NAME: debian-12
+    TARGET_BASE_IMAGE: docker.io/library/debian:12-slim
+
+
+mipsel-debian-12:
+  extends: .cross_build_job
+  needs:
+    - job: mipsel-debian-12-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: mipsel
+    JOB_OPTIONAL: 1
+    NAME: debian-12
+    TARGET_BASE_IMAGE: docker.io/library/debian:12-slim
+
+
+ppc64le-debian-12:
+  extends: .cross_build_job
+  needs:
+    - job: ppc64le-debian-12-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: ppc64le
+    JOB_OPTIONAL: 1
+    NAME: debian-12
+    TARGET_BASE_IMAGE: docker.io/library/debian:12-slim
+
+
+s390x-debian-12:
+  extends: .cross_build_job
+  needs:
+    - job: s390x-debian-12-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: s390x
+    JOB_OPTIONAL: 1
+    NAME: debian-12
+    TARGET_BASE_IMAGE: docker.io/library/debian:12-slim
+
+
+aarch64-debian-sid:
+  extends: .cross_build_job
+  needs:
+    - job: aarch64-debian-sid-container
+      optional: true
+  allow_failure: true
+  variables:
+    CROSS: aarch64
+    JOB_OPTIONAL: 1
+    NAME: debian-sid
+    TARGET_BASE_IMAGE: docker.io/library/debian:sid-slim
+
+
+armv6l-debian-sid:
+  extends: .cross_build_job
+  needs:
+    - job: armv6l-debian-sid-container
+      optional: true
+  allow_failure: true
+  variables:
+    CROSS: armv6l
+    JOB_OPTIONAL: 1
+    NAME: debian-sid
+    TARGET_BASE_IMAGE: docker.io/library/debian:sid-slim
+
+
+armv7l-debian-sid:
+  extends: .cross_build_job
+  needs:
+    - job: armv7l-debian-sid-container
+      optional: true
+  allow_failure: true
+  variables:
+    CROSS: armv7l
+    JOB_OPTIONAL: 1
+    NAME: debian-sid
+    TARGET_BASE_IMAGE: docker.io/library/debian:sid-slim
+
+
+i686-debian-sid:
+  extends: .cross_build_job
+  needs:
+    - job: i686-debian-sid-container
+      optional: true
+  allow_failure: true
+  variables:
+    CROSS: i686
+    JOB_OPTIONAL: 1
+    NAME: debian-sid
+    TARGET_BASE_IMAGE: docker.io/library/debian:sid-slim
+
+
+mips64el-debian-sid:
+  extends: .cross_build_job
+  needs:
+    - job: mips64el-debian-sid-container
+      optional: true
+  allow_failure: true
+  variables:
+    CROSS: mips64el
+    JOB_OPTIONAL: 1
+    NAME: debian-sid
+    TARGET_BASE_IMAGE: docker.io/library/debian:sid-slim
+
+
+ppc64le-debian-sid:
+  extends: .cross_build_job
+  needs:
+    - job: ppc64le-debian-sid-container
+      optional: true
+  allow_failure: true
+  variables:
+    CROSS: ppc64le
+    JOB_OPTIONAL: 1
+    NAME: debian-sid
+    TARGET_BASE_IMAGE: docker.io/library/debian:sid-slim
+
+
+s390x-debian-sid:
+  extends: .cross_build_job
+  needs:
+    - job: s390x-debian-sid-container
+      optional: true
+  allow_failure: true
+  variables:
+    CROSS: s390x
+    JOB_OPTIONAL: 1
+    NAME: debian-sid
+    TARGET_BASE_IMAGE: docker.io/library/debian:sid-slim
+
+
+mingw32-fedora-40:
+  extends: .cross_build_job
+  needs:
+    - job: mingw32-fedora-40-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: mingw32
+    JOB_OPTIONAL: 1
+    NAME: fedora-40
+    TARGET_BASE_IMAGE: registry.fedoraproject.org/fedora:40
+
+
+mingw64-fedora-40:
+  extends: .cross_build_job
+  needs:
+    - job: mingw64-fedora-40-container
+      optional: true
+  allow_failure: false
+  variables:
+    CROSS: mingw64
+    NAME: fedora-40
+    TARGET_BASE_IMAGE: registry.fedoraproject.org/fedora:40
+
+
+mingw32-fedora-rawhide:
+  extends: .cross_build_job
+  needs:
+    - job: mingw32-fedora-rawhide-container
+      optional: true
+  allow_failure: true
+  variables:
+    CROSS: mingw32
+    NAME: fedora-rawhide
+    TARGET_BASE_IMAGE: registry.fedoraproject.org/fedora:rawhide
+
+
+mingw64-fedora-rawhide:
+  extends: .cross_build_job
+  needs:
+    - job: mingw64-fedora-rawhide-container
+      optional: true
+  allow_failure: true
+  variables:
+    CROSS: mingw64
+    JOB_OPTIONAL: 1
+    NAME: fedora-rawhide
+    TARGET_BASE_IMAGE: registry.fedoraproject.org/fedora:rawhide
+
+
+# Native cirrus build jobs
+
+x86_64-freebsd-13:
+  extends: .cirrus_build_job
+  needs: []
+  allow_failure:
+    exit_codes: 3
+  variables:
+    CIRRUS_VM_IMAGE_NAME: freebsd-13-3
+    CIRRUS_VM_IMAGE_SELECTOR: image_family
+    CIRRUS_VM_INSTANCE_TYPE: freebsd_instance
+    INSTALL_COMMAND: pkg install -y
+    NAME: freebsd-13
+    UPDATE_COMMAND: pkg update
+    UPGRADE_COMMAND: pkg upgrade -y
+
+
+x86_64-freebsd-14:
+  extends: .cirrus_build_job
+  needs: []
+  allow_failure:
+    exit_codes: 3
+  variables:
+    CIRRUS_VM_IMAGE_NAME: freebsd-14-1
+    CIRRUS_VM_IMAGE_SELECTOR: image_family
+    CIRRUS_VM_INSTANCE_TYPE: freebsd_instance
+    INSTALL_COMMAND: pkg install -y
+    NAME: freebsd-14
+    UPDATE_COMMAND: pkg update
+    UPGRADE_COMMAND: pkg upgrade -y
+
+
+aarch64-macos-14:
+  extends: .cirrus_build_job
+  needs: []
+  allow_failure:
+    exit_codes: 3
+  variables:
+    CIRRUS_VM_IMAGE_NAME: ghcr.io/cirruslabs/macos-runner:sonoma
+    CIRRUS_VM_IMAGE_SELECTOR: image
+    CIRRUS_VM_INSTANCE_TYPE: macos_instance
+    INSTALL_COMMAND: brew install
+    NAME: macos-14
+    PATH_EXTRA: /usr/local/opt/ccache/libexec:/usr/local/opt/gettext/bin:/usr/local/opt/libpcap/bin:/usr/local/opt/libxslt/bin
+    PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/libpcap/lib/pkgconfig:/usr/local/opt/libxml2/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
+    UPDATE_COMMAND: brew update
+    UPGRADE_COMMAND: brew upgrade
